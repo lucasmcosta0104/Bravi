@@ -1,4 +1,4 @@
-Aplicação web desenvolvidade em .net 8.
+Aplicação web desenvolvida em .net 8.
 Utilizando SqlLite.
 
 Api.
