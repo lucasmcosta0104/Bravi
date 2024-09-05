@@ -1,0 +1,94 @@
+<app-form-grid-contato  [idPessoa]="id">
+  <div
+    class="w-full flex justify-start items-center gap-2 h-[1.5625rem] border-solid border-0 border-b-2 border-blue-400 py-2"
+  >
+    <mat-icon
+      class="border-solid border-0 border-r-2 border-gray-400 pr-2 text-gray-400"
+    >
+    business
+    </mat-icon>
+    <p class="text-gray-700 font-bold">Editar Pessoa</p>
+  </div>
+  <form class="py-2" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="grid grid-cols-12 gap-2 md:gap-4">
+      <app-input-wrapper label="Tipo de Pessoa" class="lg:col-span-4 col-span-12">
+        <mat-form-field appearance="outline" floatLabel="always" class="w-full">
+            <mat-select
+                formControlName="tipoPessoa"
+                (selectionChange)="verificaJuridicaFisica($event)"
+            >
+                <mat-option [value]="1">Pessoal Física</mat-option>
+                <mat-option [value]="2">Pessoal Jurídica</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </app-input-wrapper> 
+    </div>
+    <div class="grid grid-cols-12 gap-2 md:gap-4 mt-4" >
+      <app-input-wrapper label="CPF/CNPJ *" class="lg:col-span-4 col-span-12">
+        <mat-form-field appearance="outline" floatLabel="always" class="w-full">
+          <input
+            matInput
+            formControlName="documento"
+            placeholder="Informe o documento"
+            [errorStateMatcher]="matcher"
+            maxlength="18"
+            minlength="11"
+            (blur)="verificaCPFCNPJ($event)"
+            mask="{{mascara}}"
+          />
+          @if(displayMessage['documento']) {
+              <mat-error [innerHTML]="displayMessage['documento']"></mat-error>
+          }
+        </mat-form-field>
+      </app-input-wrapper>
+      <app-input-wrapper label="{{nomeLabel}} *" class="lg:col-span-8 col-span-12">
+        <mat-form-field appearance="outline" floatLabel="always" class="w-full text-sm">
+          <input
+            matInput
+            formControlName="nome"
+            placeholder="Informe o nome"
+            [errorStateMatcher]="matcher"
+            maxlength="100"
+            minlength="2"
+          />
+          @if(displayMessage['nome']) {
+              <mat-error [innerHTML]="displayMessage['nome']"></mat-error>
+          }
+        </mat-form-field>
+      </app-input-wrapper>
+      
+
+      <app-input-wrapper label="Email *" class="lg:col-span-6 col-span-12">
+        <mat-form-field appearance="outline" floatLabel="always" class="w-full">
+          <input
+            matInput
+            formControlName="email"
+            placeholder="Informe o e-mail"
+            [errorStateMatcher]="matcher"
+            type="email"
+            maxlength="50"
+          />
+          @if(displayMessage['email']) {
+              <mat-error [innerHTML]="displayMessage['email']"></mat-error>
+          }
+        </mat-form-field>
+      </app-input-wrapper>
+      <app-input-wrapper label="Telefone *" class="lg:col-span-6 col-span-12">
+        <mat-form-field appearance="outline" floatLabel="always" class="w-full">
+          <input
+            matInput
+            formControlName="telefone"
+            placeholder="Informe o telefone"
+            [errorStateMatcher]="matcher"
+            mask="(00)00000-0000"
+          />
+          @if(displayMessage['telefone']) {
+              <mat-error [innerHTML]="displayMessage['telefone']"></mat-error>
+          }
+        </mat-form-field>
+      </app-input-wrapper>
+    </div>
+    <app-form-buttons [isLoading]="isLoading" />
+  </form>
+</app-form-grid-contato>

@@ -1,0 +1,90 @@
+<mat-sidenav-container autosize>
+  <mat-sidenav [opened]="true" mode="side">
+    <mat-nav-list class="nav-list">
+      <div class="menu-container">
+        <div class="search-container">
+          <input
+            matInput
+            type="text"
+            placeholder="Pesquisa"
+            [formControl]="searchControl"
+          />
+          <mat-icon matSuffix class="search-icon" (click)="clearSearch()">
+            {{ searchControl.value ? "close" : "search" }}
+          </mat-icon>
+        </div>
+      </div>
+
+      @for (item of filteredMenuItems; track item.id) {
+      <mat-expansion-panel
+        class="expansion-panel-n1"
+        [ngClass]="{ selected: isSelected(item.title) }"
+        [expanded]="openPanels.has(item.title)"
+        (opened)="selectPanel(item.title)"
+        (closed)="selectPanel('')"
+      >
+        <mat-expansion-panel-header>
+          <div class="panel-header">
+            @if (item.icon) {
+            <mat-icon class="icon-nivel-1">{{ item.icon }}</mat-icon>
+            }
+            {{ item.title }}
+          </div>
+        </mat-expansion-panel-header>
+
+        @if (item.children) { @for (subItem of item.children; track subItem.id)
+        { @if (subItem.children) {
+        <mat-expansion-panel
+          class="expansion-panel-n2"
+          [ngClass]="{ selected: isSubPanelOpen(subItem.title) }"
+          [expanded]="openPanels.has(subItem.title)"
+          (opened)="toggleSubPanel(subItem.title)"
+          (closed)="toggleSubPanel('')"
+        >
+          <mat-expansion-panel-header>
+            <div class="panel-header">
+              @if (subItem.icon) {
+              <mat-icon>{{ subItem.icon }}</mat-icon>
+              }
+              {{ subItem.title }}
+            </div>
+          </mat-expansion-panel-header>
+
+          <mat-nav-list>
+            @for (subSubItem of subItem.children; track subSubItem.id) {
+            <a
+              mat-list-item
+              [routerLink]="subSubItem.link"
+              routerLinkActive="active-link"
+            >
+              <span class="entry">
+                <span>{{ subSubItem.title }}</span>
+              </span>
+            </a>
+            }
+          </mat-nav-list>
+        </mat-expansion-panel>
+        } @if (!subItem.children) {
+        <mat-nav-list class="nav-list-anchor">
+          <a
+            mat-list-item
+            [routerLink]="subItem.link"
+            routerLinkActive="active-link"
+          >
+            <span class="entry">
+              <span>{{ subItem.title }}</span>
+            </span>
+          </a>
+        </mat-nav-list>
+        } } }
+      </mat-expansion-panel>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <ngx-spinner type="ball-scale-multiple" [fullScreen]="false" size="large">
+      <p class="text-white">Carregando...</p>
+    </ngx-spinner>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,15 @@
+<div class="flex flex-wrap-2 h-full bg-gray-100 shadow-sm">
+  <div class="w-full p-6 m-4 bg-white rounded-sm">
+    <div
+      class="w-full flex justify-start items-center gap-2 h-[1.5625rem] border-solid border-0 border-b-2 border-blue-400 py-2"
+    >
+      <mat-icon
+        class="border-solid border-0 border-r-2 border-gray-400 pr-2 text-gray-400"
+      >
+        {{ icon }}
+      </mat-icon>
+      <p class="text-gray-700 font-bold">{{ title }}</p>
+    </div>
+    <ng-content></ng-content>
+  </div>
+</div>

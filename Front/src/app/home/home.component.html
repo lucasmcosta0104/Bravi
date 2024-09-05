@@ -1,0 +1,55 @@
+<div class="flex flex-wrap-2 h-full bg-gray-100 shadow-sm">
+  <div class="w-full p-6 m-4 bg-white rounded-sm">
+    <div
+      class="w-full flex justify-start items-center gap-2 h-[1.5625rem] border-solid border-0 border-b-2 border-blue-400 py-2"
+    >
+      <mat-icon
+        class="border-solid border-0 border-r-2 border-gray-400 pr-2 text-gray-400"
+      >
+        home
+      </mat-icon>
+      <p class="text-gray-700 font-bold">Home</p>
+    </div>
+    <mat-grid-list cols="2" rowHeight="2:1">
+      <mat-grid-tile>
+        <ngx-charts-pie-chart
+          [results]="single"
+          [gradient]="gradient"
+          [legend]="showLegend"
+          [labels]="showLabels"
+          [doughnut]="isDoughnut"
+          (select)="onSelect($event)"
+          (activate)="onActivate($event)"
+          (deactivate)="onDeactivate($event)"
+        ></ngx-charts-pie-chart>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <ngx-charts-area-chart
+          [legend]="legend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="showYAxisLabel"
+          [xAxis]="xAxis"
+          [yAxis]="yAxis"
+          [xAxisLabel]="xAxisLabel"
+          [yAxisLabel]="yAxisLabel"
+          [timeline]="timeline"
+          [results]="multi"
+          (select)="onSelect($event)"
+        ></ngx-charts-area-chart>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <ngx-charts-bar-vertical
+          [results]="singleBar"
+          [gradient]="gradientBar"
+          [xAxis]="showXAxis"
+          [yAxis]="showYAxis"
+          [legend]="showLegend"
+          [showXAxisLabel]="showXAxisLabel"
+          [showYAxisLabel]="yAxisLabelBar"
+          [xAxisLabel]="xAxisLabelBar"
+          (select)="onSelect($event)"
+        ></ngx-charts-bar-vertical>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+</div>

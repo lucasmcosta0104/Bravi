@@ -1,0 +1,112 @@
+@use "@angular/material" as mat;
+@use "./app/core/layout/layout.component.theme" as layout-theme;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@include mat.core();
+
+$light-theme: mat.define-theme(
+  (
+    color: (
+      use-system-variables: true,
+    ),
+    typography: (
+      use-system-variables: true,
+    ),
+    density: (
+      scale: -2,
+    ),
+  )
+);
+
+:root {
+  @include mat.all-component-themes($light-theme);
+  @include layout-theme.theme($light-theme);
+  @include mat.system-level-colors($light-theme);
+}
+
+html,
+body {
+  height: 100%;
+  // width: 100vw;
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif !important;
+  box-sizing: border-box;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+.snackbar-error {
+  background-color: #ffefeb;
+}
+.snackbar-success {
+  background-color: rgb(234, 255, 234);
+}
+.snackbar-warn {
+  background-color: #fffae7;
+}
+.snackbar-info {
+  background-color: rgb(232, 244, 255);
+}
+
+.snackbar-error,
+.snackbar-info,
+.snackbar-success,
+.snackbar-warn {
+  height: 4.375rem;
+  color: #252c32;
+  margin-top: 5.2rem !important;
+}
+
+textarea {
+  resize: none !important;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+:disabled,
+[disabled],
+.mat-form-field-disabled,
+.ngx-disabled {
+  cursor: not-allowed;
+}
+
+.swal2-custom-btn.swal2-confirm-btn {
+  background-color: transparent;
+  border-radius: 0.5rem;
+  color: var(--sys-primary);
+}
+
+.swal2-custom-btn.swal2-confirm-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(64, 148, 247, 0.3);
+}
+
+.swal2-custom-btn.swal2-cancel-btn {
+  background-color: var(--sys-primary);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.swal2-custom-btn.swal2-cancel-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+button {
+  cursor: pointer;
+}
+.active-link {
+  font-weight: bold;
+}

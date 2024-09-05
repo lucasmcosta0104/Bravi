@@ -1,0 +1,111 @@
+@use "@angular/material" as mat;
+
+@mixin theme($theme) {
+  .mat-expansion-panel-body {
+    padding: 0px;
+  }
+
+  .mat-mdc-nav-list .mat-mdc-list-item {
+    border-radius: 0;
+  }
+
+  .mat-mdc-form-field-error {
+    color: mat.get-theme-color($theme, error);
+  }
+
+  .mat-mdc-unelevated-button:not(:disabled) {
+    color: mat.get-theme-color($theme, on-primary);
+    background-color: mat.get-theme-color($theme, primary);
+  }
+
+  .mat-mdc-unelevated-button {
+    gap: 0.5rem;
+    border-radius: 0.5rem;
+  }
+
+  .mat-mdc-outlined-button:not(:disabled) {
+    color: mat.get-theme-color($theme, tertiary);
+    background-color: mat.get-theme-color($theme, on-tertiary);
+  }
+
+  .mat-mdc-outlined-button {
+    gap: 0.5rem;
+    border-radius: 0.5rem;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    height: 2.5rem;
+  }
+
+  .mat-drawer-container {
+    height: 100%;
+    background-color: mat.get-theme-color($theme, on-primary);
+  }
+
+  .mat-divider {
+    border-top-color: mat.get-theme-color($theme, primary);
+    border-bottom-color: mat.get-theme-color($theme, primary);
+  }
+
+  .mat-mdc-form-field-error-wrapper {
+    padding: 0;
+  }
+
+  .mat-mdc-form-field-flex {
+    height: 2.5rem;
+  }
+
+  .mat-mdc-form-field-infix {
+    height: 2.5rem;
+    padding: 0;
+    min-height: 0;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+  }
+
+  .mat-mdc-row {
+    height: 0;
+  }
+
+  .divider {
+    color: mat.get-theme-color($theme, primary);
+  }
+
+  mat-toolbar {
+    background-color: var(--sys-on-primary-container);
+  }
+
+  .mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
+    background-color: inherit;
+    color: inherit;
+    height: 4.375rem;
+    border-radius: 8px;
+  }
+
+  mat-snack-bar-container {
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 20px;
+  }
+
+  .mat-mdc-form-field-bottom-align::before {
+    display: none;
+  }
+
+  ::ng-deep .mat-form-field-flex > .mat-form-field-infix {
+    padding: 0.4em 0px !important;
+    height: 2.5rem;
+  }
+  ::ng-deep .mat-form-field-label-wrapper {
+    top: -1.5em;
+  }
+
+  ::ng-deep
+    .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float
+    .mat-form-field-label {
+    transform: translateY(-1.1em) scale(0.75);
+    width: 133.33333%;
+  }
+}

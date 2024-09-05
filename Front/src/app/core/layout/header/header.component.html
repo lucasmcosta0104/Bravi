@@ -1,0 +1,30 @@
+<mat-toolbar class="content">
+  <div class="content-left">
+    <button
+      mat-icon-button
+      class="btn-menu"
+      aria-label="Menu"
+      (click)="onToggleMenu()"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div>
+      <h1 class="user-title">Desafio Bravi</h1>
+    </div>
+    
+
+    <div>
+      <span class="user-name">Nome do Usuário</span>
+    </div>
+  </div>
+  <div class="content-right">
+    <p class="data-atual">
+      {{ today | date : "HH'h'mm - dd MMM yyyy" : "pt-BR" }}
+    </p>
+
+    <button class="btn-sair" mat-flat-button color="primary">
+      <mat-icon>exit_to_app</mat-icon>
+      Sair
+    </button>
+  </div>
+</mat-toolbar>

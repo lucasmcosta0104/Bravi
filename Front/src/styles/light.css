@@ -1,0 +1,79 @@
+:root,
+:host {
+  /* Cores para background */
+  --sys-background: #f5fafb;
+  --sys-on-background: #171d1e; 
+
+  /* Cores auxiliares */
+  --sys-surface: #ffffff;
+  --sys-on-surface: #171d1e;
+  --sys-surface-variant: #ffffff;
+  --sys-on-surface-variant: #6b7280;
+  --sys-surface-container: #ffffff;
+  /* Cores primarias */
+  --sys-primary: #4094f7;
+  --sys-on-primary: #ffffff;
+  --sys-primary-container: #395587;
+  --sys-on-primary-container: #2c3d5c;
+  --sys-primary-fixed: #015ca9;
+  --sys-inverse-primary: #252c32;
+  --sys-on-primary-fixed: #d0d0d0;
+
+  /* Cores Secundaria */
+  --sys-secondary: #3d5f90;
+  --sys-on-secondary: #ffffff;
+  --sys-secondary-container: #f4f4f2;
+
+  /* Cores terciaria */
+  --sys-tertiary: #6b7280;
+  --sys-on-tertiary: #ffffff;
+  --sys-tertiary-container: #e5e7eb;
+  --sys-on-tertiary-container: #576681;
+  /* Cores neutras  */
+  --sys-neutral: #9ca3af;
+  --sys-neutral-variant: #f4f4f2;
+
+  /* Cores de error */
+  --sys-error: #ef4444;
+  --sys-on-error: #ffffff;
+  --sys-on-error-container: #ef4444;
+  --sys-error-container: #ffffff;
+
+  /* nao utilizadas */
+  /* --sys-surface-dim: #ffffff;
+  --sys-surface-bright: #ffffff;
+  --sys-surface-container-lowest: #ffffff;
+  --sys-surface-container-low: #ffffff;
+  --sys-surface-container: #e9eff0;
+  --sys-surface-container-high: #e3e9ea;
+  --sys-surface-container-highest: #dee3e5;
+  --sys-inverse-surface: #2b3133;
+  --sys-inverse-on-surface: #ecf2f3;
+  --sys-outline: #6f797a;
+  --sys-outline-variant: #bfc8ca;
+  --sys-shadow: #000000;
+  --sys-scrim: #000000;
+  --sys-surface-tint: #425e91;
+  --sys-inverse-primary: #abc7ff;
+  --sys-tertiary-container: #b8eaff;
+  --sys-on-tertiary-container: #001f28;
+  --sys-primary-fixed: #d7e2ff;
+  --sys-primary-fixed-dim: #abc7ff;
+  --sys-on-primary-fixed: #001b3f;
+  --sys-on-primary-fixed-variant: #294677;
+  --sys-secondary-fixed: #d4e3ff;
+  --sys-secondary-fixed-dim: #a6c8ff;
+  --sys-on-secondary-fixed: #001c3a;
+  --sys-on-secondary-fixed-variant: #224876;
+  --sys-tertiary-fixed: #b8eaff;
+  --sys-tertiary-fixed-dim: #88d1ec;
+  --sys-on-tertiary-fixed: #001f28;
+  --sys-on-tertiary-fixed-variant: #004d61;
+  --sys-inverse-secondary: #a6c8ff;
+  --sys-inverse-tertiary: #88d1ec;
+  --sys-inverse-error: #ffb4ab;
+  --sys-error-fixed: #ffdad5;
+  --sys-error-fixed-dim: #ffb4ab;
+  --sys-on-error-fixed: #3b0907;
+  --sys-on-error-fixed-variant: #73342d; */
+}

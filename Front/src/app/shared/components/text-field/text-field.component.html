@@ -1,0 +1,17 @@
+<div class="input-container">
+  <span class="input-label">{{ label }}</span>
+  <mat-form-field appearance="outline" floatLabel="always">
+    <input
+      matInput
+      [placeholder]="placeholder"
+      [type]="type"
+      [(ngModel)]="value"
+      [disabled]="disabled"
+      (input)="onChange(value)"
+      (blur)="onTouched()"
+    />
+    @if(value) {
+    <mat-error></mat-error>
+    }
+  </mat-form-field>
+</div>

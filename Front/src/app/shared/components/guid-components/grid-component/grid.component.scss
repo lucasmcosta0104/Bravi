@@ -1,0 +1,139 @@
+.header-cell {
+  color: #404b52;
+  font-weight: 600;
+  line-height: 21px;
+}
+
+.header-cell:nth-last-child(3),
+.header-cell:nth-last-child(2),
+.header-cell:nth-last-child(1) {
+  width: 2rem;
+}
+
+.header-cell-action {
+  width: 3rem !important;
+}
+
+.cell {
+  color: #3a4859;
+}
+
+.header-cell-checkbox {
+  width: 1rem;
+}
+
+.mat-menu-item:hover {
+  border-color: #005ca9;
+}
+.mat-mdc-row:nth-child(even) {
+  background-color: #f6f9f9;
+}
+
+.mat-mdc-row {
+  height: 2.5rem;
+}
+
+.mat-menu-item {
+  cursor: pointer;
+  box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
+  border-radius: 0.3125rem;
+  margin-bottom: 0.625rem;
+  border: 0.0625rem solid #777777;
+  background-color: #ffffff;
+  color: #005ca9;
+  font-size: 0.875rem;
+}
+
+.mat-menu-item:last-child {
+  margin-bottom: 0;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 0.9375rem;
+  margin-bottom: 0.3125rem;
+}
+
+.pagination-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20%;
+  padding: 0;
+  border: 0 solid;
+  box-shadow: #555;
+}
+
+.thin-icon {
+  transform: scale(0.8);
+  transform-origin: center;
+}
+
+.pagination-select {
+  border: 0.0625rem solid #ccc;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #333;
+}
+
+.filter-data-menu {
+  padding: 0;
+  min-width: 15.625rem;
+  box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+}
+
+.filter-data-menu-content {
+  padding: 0.75rem;
+  background-color: #fff;
+}
+
+.filter-data-menu-item {
+  margin-bottom: 1rem;
+}
+
+.filter-data-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px;
+  width: 100%;
+  padding: 0.625rem;
+  border: 0.0625rem solid #ccc;
+  border-radius: 0.25rem;
+  box-sizing: border-box;
+  font-size: 0.875rem;
+}
+.filter-data-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+input,
+button,
+select,
+mat-select {
+  border-radius: 0.5rem !important;
+}
+
+.mat-mdc-input-element:focus {
+  box-shadow: 0 0 0 1px rgba(0, 92, 169) !important;
+  border-color: #005ca9 !important;
+  outline: none !important;
+}
+
+.position-right {
+  text-align: center;
+  border-right: 2px solid #ffffff;
+}
+
+.position-left {
+  text-align: center;
+  border-left: 2px solid #ffffff;
+}

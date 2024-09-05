@@ -1,0 +1,306 @@
+<div
+  [ngClass]="{
+    'flex flex-col h-full w-full': hasConfigId,
+    'flex flex-col h-full bg-gray-100 shadow-sm w-full': !hasConfigId
+  }"
+>
+  <div class="h-full p-6 m-4 bg-white">
+    <ng-content></ng-content>
+    <div
+      class="w-full flex justify-start items-center gap-2 h-[1.5625rem] border-solid border-0 border-b-2 border-blue-400 py-2"
+    >
+      <mat-icon
+        class="border-solid border-0 border-r-2 border-gray-400 pr-2 text-gray-400"
+      >
+        {{ icon }}
+      </mat-icon>
+      <p class="text-gray-700 font-bold">{{ title }}</p>
+    </div>
+
+    <div class="w-full mt-2 flex items-center gap-2">
+      <div class="flex gap-2">
+        <button
+          *ngIf="config.actionAdicionar"
+          mat-button
+          matTooltip="Adicionar"
+          aria-label="Adicionar"
+          class="!bg-transparent !border !border-blue-800 !text-blue-[#005ca9] !font-bold !py-2 !px-2 !rounded-lg !inline-flex !items-center !h-10"
+          (click)="actionAdicionar()"
+        >
+          <mat-icon>add</mat-icon>
+          Adicionar
+        </button>
+        <button
+          *ngIf="config.actionExcluirMultiplos"
+          mat-button
+          matTooltip="Excluir Multiplos"
+          aria-label="Excluir Multiplos"
+          class="!bg-transparent !border !border-red-800 !text-red-800 !font-bold !py-2 !px-2 !rounded-lg !inline-flex !items-center !h-10"
+          (click)="actionExcluirMultiplos()"
+        >
+          <mat-icon>delete</mat-icon>
+          Excluir Multiplos
+        </button>
+      </div>
+
+      <div class="ml-auto">
+        <button
+          mat-button
+          class="!bg-transparent !border !border-gray-800 !text-gray-800 !font-bold !py-2 !px-2 !rounded-lg !inline-flex !items-center !h-10"
+          (click)="toggleFilter()"
+        >
+          <mat-icon>filter_list</mat-icon> Filtro
+        </button>
+        <button
+          mat-button
+          class="!bg-transparent !border !border-gray-800 !text-gray-800 !font-bold !py-2 !px-2 !rounded-lg !inline-flex !items-center !h-10"
+          (click)="limparFilter()"
+        >
+          <mat-icon>cleaning_services</mat-icon> Limpar
+        </button>
+      </div>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table mat-table [dataSource]="paginatedData" class="py-4">
+        <ng-container
+          matColumnDef="select"
+          sticky
+          class="border-spacing-y-px py-2 max-w-4"
+        >
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="header-cell-checkbox !bg-[#E7E7E7] position-right"
+          >
+            <input
+              type="checkbox"
+              (change)="toggleAllSelection($event)"
+              [checked]="isAllSelected()"
+              aria-label="Selecionar todos"
+              class="border border-gray-300"
+            />
+          </th>
+          <td mat-cell *matCellDef="let row" class="position-right">
+            <input
+              type="checkbox"
+              [checked]="isSelected(row.id)"
+              (change)="toggleSelection(row.id)"
+              aria-label="Selecionar item"
+              class="border border-gray-300"
+            />
+          </td>
+        </ng-container>
+
+        <ng-container
+          *ngFor="let item of config.filterItens"
+          [matColumnDef]="item.Field"
+          class="border-spacing-y-px"
+        >
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="header-cell !bg-[#E7E7E7] py-1 font-bold"
+          >
+            {{ item.Field }}
+            <div *ngIf="isFilterVisible" class="flex flex-col py-2">
+              <input
+                matInput
+                *ngIf="item.Tipo === 'string' || item.Tipo === 'text'"
+                type="text"
+                (input)="applyFilter(item.Name, $event)"
+                placeholder="Filtrar..."
+                class="!p-2 !text-sm !border !border-gray-400"
+              />
+              <input
+                matInput
+                *ngIf="item.Tipo === 'inteiro'"
+                type="number"
+                (input)="applyFilter(item.Name, $event, 'inteiro')"
+                placeholder="Filtrar..."
+                class="!p-2 !text-sm !border !border-gray-400"
+              />
+              <input
+                matInput
+                *ngIf="item.Tipo === 'decimal'"
+                type="text"
+                (input)="validateAndFormat($event, item.Name)"
+                placeholder="Filtrar..."
+                [value]="formattedValue"
+                class="!p-2 !text-sm !border !border-gray-400"
+              />
+              <mat-select
+                *ngIf="item.Tipo === 'enum'"
+                [(ngModel)]="item.defaultValue"
+                (selectionChange)="applyFilter(item.Name, $event, 'enum')"
+                class="!p-2 !text-sm gap-2 !w-24 !text-[#374049] border border-solid border-[1px] border-[#404b52] focus:outline-none focus:border-[#005ca9] focus:ring-1 focus:ring-[#005ca9] focus:ring-opacity-100"
+              >
+                <mat-option
+                  *ngFor="let enum of item.valueEnums"
+                  [value]="enum.value"
+                  class="text-sm"
+                >
+                  {{ enum.label }}
+                </mat-option>
+              </mat-select>
+              <div *ngIf="item.Tipo === 'data'">
+                <button
+                  mat-button
+                  [matMenuTriggerFor]="filtroData"
+                  class="flex items-center justify-start !text-gray-600 border !hover:shadow-md !focus:outline-none !focus:ring-2 !focus:ring-blue-500 !h-10 !border !border-solid border-[1px] !border-[#404b52] !rounded-lg"
+                >
+                  <mat-icon>filter_list</mat-icon>
+                  Filtrar...
+                </button>
+                <mat-menu #filtroData="matMenu">
+                  <div class="p-2">
+                    <div class="flex flex-col gap-2 py-2">
+                      <span>Data Inicial</span>
+                      <input
+                        matInput
+                        type="date"
+                        (change)="
+                          aplicarFiltroData(item.Name, 'dataInicial', $event)
+                        "
+                        placeholder="Data Inicial"
+                        class="!p-2 !text-sm !border !border-gray-400"
+                        (click)="$event.stopPropagation()"
+                      />
+                    </div>
+                    <div class="flex flex-col gap-2 py-2">
+                      <span>Data Final</span>
+                      <input
+                        matInput
+                        type="date"
+                        (change)="
+                          aplicarFiltroData(item.Name, 'dataFinal', $event)
+                        "
+                        placeholder="Data Final"
+                        class="!p-2 !text-sm !border !border-gray-400"
+                        (click)="$event.stopPropagation()"
+                      />
+                    </div>
+                  </div>
+                </mat-menu>
+              </div>
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let row" class="cell">
+            {{ row[item.Name] | gridFieldDecimal : item?.isCurrency }}
+          </td>
+        </ng-container>
+
+        <ng-container
+          matColumnDef="actions"
+          stickyEnd
+          class="!border-spacing-y-px text-center header-cell-action"
+        >
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="header-cell !bg-[#E7E7E7] text-center position-left"
+          >
+            Ações
+          </th>
+          <td
+            class="flex flex-wrap position-left"
+            mat-cell
+            *matCellDef="let row"
+          >
+            <div
+              class="!w-full space-x-3 !flex justify-center !items-center py-2"
+            >
+              <button
+                *ngIf="config.actionVisualizar"
+                mat-icon-button
+                (click)="actionVisualizar(row.id)"
+                class="!border !border-gray-300"
+              >
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button
+                *ngIf="config.actionEditar"
+                mat-icon-button
+                (click)="actionEditar(row.id)"
+                class="!border !border-gray-300"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                *ngIf="config.actionExcluir"
+                mat-icon-button
+                (click)="actionExcluir(row.id)"
+                class="!border !border-gray-300"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button
+                *ngIf="verificaMenuAction()"
+                mat-icon-button
+                [matMenuTriggerFor]="menu"
+                class="!border !border-gray-300"
+              >
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button
+                  *ngFor="let action of config.actions"
+                  mat-menu-item
+                  (click)="handleAction(action, row.id)"
+                >
+                  <mat-icon>{{ action.iconName }}</mat-icon>
+                  {{ action.name }}
+                </button>
+              </mat-menu>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+
+    <div
+      class="flex flex-wrap items-center justify-end gap-3 mb-1.5 mt-2 text-gray-700 overflow-x-auto"
+    >
+      <div class="text-center text-sm text-[#005ca9] flex-shrink-0 font-bold">
+        <span>{{ totalRecords }} resultado(s)</span>
+      </div>
+      <div class="flex items-center gap-2 ml-4 flex-shrink-0">
+        <span class="text-[#374049] text-end text-sm font-bold">Mostrar:</span>
+        <mat-form-field appearance="outline" class="w-[72px]">
+          <mat-select
+            id="resultsPerPage"
+            class="!border-gray-300 !rounded-md !shadow-sm !focus:ring-blue-500 !focus:border-blue-500"
+            [(ngModel)]="pageSize"
+            (selectionChange)="onPageSizeChange($event)"
+          >
+            <mat-option *ngFor="let size of pageSizeOptions" [value]="size">
+              {{ size }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <span class="flex-shrink-0 text-[#374049] font-bold"
+        >{{ currentPage }} de {{ totalPages }}</span
+      >
+      <div class="flex gap-2 ml-4 flex-shrink-0">
+        <button
+          class="pagination-button bg-gray-500 hover:bg-gray-600 text-white rounded-full p-2 disabled:bg-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed"
+          (click)="changePage(currentPage - 1)"
+          [disabled]="currentPage === 1"
+        >
+          <mat-icon class="thin-icon">chevron_left</mat-icon>
+        </button>
+        <button
+          class="pagination-button bg-gray-500 hover:bg-gray-600 text-white rounded-full p-2 disabled:bg-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed"
+          (click)="changePage(currentPage + 1)"
+          [disabled]="currentPage === totalPages"
+        >
+          <mat-icon class="thin-icon">chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

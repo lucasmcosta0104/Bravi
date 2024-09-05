@@ -1,0 +1,179 @@
+<div class="flex flex-col h-full bg-gray-100 shadow-sm w-full">
+  <div class="h-full p-6 m-4 bg-white">
+    <ng-content></ng-content>
+    <div
+      class="w-full flex justify-start items-center gap-2 h-[1.5625rem] border-solid border-0 border-b-2 border-blue-400 py-2"
+    >
+      <mat-icon
+        class="border-solid border-0 border-r-2 border-gray-400 pr-2 text-gray-400"
+      >
+        {{ icon }}
+      </mat-icon>
+      <p class="text-gray-700 font-bold">{{ title }}</p>
+    </div>
+
+    <div class="w-full mt-2 flex items-center gap-2">
+      <div class="ml-auto">
+        <button
+          mat-button
+          class="!bg-transparent !border !border-gray-800 !text-gray-800 !font-bold !py-2 !px-2 !rounded-lg !inline-flex !items-center !h-10"
+          (click)="toggleFilter()"
+        >
+          <mat-icon>filter_list</mat-icon> Filtro
+        </button>
+      </div>
+    </div>
+
+    <div class="overflow-x-auto overflow-y-auto">
+      <table mat-table [dataSource]="paginatedData" class="py-4">
+        <ng-container
+          matColumnDef="select"
+          sticky
+          class="border-spacing-y-px py-2 max-w-4"
+        >
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="header-cell-checkbox !bg-[#E7E7E7] position-right"
+          >
+            <input
+              type="checkbox"
+              (change)="toggleAllSelection($event)"
+              [checked]="isAllSelected()"
+              aria-label="Selecionar todos"
+              class="border border-gray-300"
+            />
+          </th>
+          <td mat-cell *matCellDef="let row" class="position-right">
+            <input
+              type="checkbox"
+              [checked]="isSelected(row.id)"
+              (change)="toggleSelection(row.id)"
+              aria-label="Selecionar item"
+              class="border border-gray-300"
+            />
+          </td>
+        </ng-container>
+
+        <ng-container
+          *ngFor="let item of config.filterItens"
+          [matColumnDef]="item.Field"
+          class="border-spacing-y-px"
+        >
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="header-cell !bg-[#E7E7E7] py-1 font-bold"
+          >
+            {{ item.Field }}
+            <div *ngIf="isFilterVisible" class="flex flex-col py-2">
+              <input
+                matInput
+                *ngIf="item.Tipo === 'string' || item.Tipo === 'text'"
+                type="text"
+                (input)="applyFilter(item.Name, $event)"
+                placeholder="Filtrar..."
+                class="!p-2 !text-sm !border !border-gray-400"
+              />
+              <input
+                matInput
+                *ngIf="item.Tipo === 'inteiro'"
+                type="number"
+                (input)="applyFilter(item.Name, $event, 'inteiro')"
+                placeholder="Filtrar..."
+                class="!p-2 !text-sm !border !border-gray-400"
+              />
+              <input
+                matInput
+                *ngIf="item.Tipo === 'decimal'"
+                type="text"
+                placeholder="Filtrar..."
+                (input)="applyFilter(item.Name, $event, 'decimal')"
+                [value]="formattedValue"
+                class="!p-2 !text-sm !border !border-gray-400"
+              />
+            </div>
+          </th>
+          <td mat-cell *matCellDef="let row" class="cell">
+            {{ row[item.Name] | gridFieldDecimal : item?.isCurrency }}
+          </td>
+        </ng-container>
+
+        <ng-container
+          matColumnDef="actions"
+          stickyEnd
+          class="!border-spacing-y-px text-center header-cell-action"
+        >
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="header-cell !bg-[#E7E7E7] text-center position-left"
+          >
+            Ações
+          </th>
+          <td
+            class="flex flex-wrap position-left"
+            mat-cell
+            *matCellDef="let row"
+          >
+            <div
+              class="!w-full space-x-3 !flex justify-center !items-center py-2"
+            >
+              <button
+                *ngIf="config.actionExcluir"
+                mat-icon-button
+                (click)="actionExcluir(row.id)"
+                class="!border !border-gray-300"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+
+    <div
+      class="flex flex-wrap items-center justify-end gap-3 mb-1.5 mt-2 text-gray-700 overflow-x-auto"
+    >
+      <div class="text-center text-sm text-[#005ca9] flex-shrink-0 font-bold">
+        <span>{{ totalRecords }} resultado(s)</span>
+      </div>
+      <div class="flex items-center gap-2 ml-4 flex-shrink-0">
+        <span class="text-[#374049] text-end text-sm font-bold">Mostrar:</span>
+        <mat-form-field appearance="outline" class="w-[72px]">
+          <mat-select
+            id="resultsPerPage"
+            class="!border-gray-300 !rounded-md !shadow-sm !focus:ring-blue-500 !focus:border-blue-500"
+            [(ngModel)]="pageSize"
+            (selectionChange)="onPageSizeChange($event)"
+          >
+            <mat-option *ngFor="let size of pageSizeOptions" [value]="size">
+              {{ size }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <span class="flex-shrink-0 text-[#374049] font-bold"
+        >{{ currentPage }} de {{ totalPages }}</span
+      >
+      <div class="flex gap-2 ml-4 flex-shrink-0">
+        <button
+          class="pagination-button bg-gray-500 hover:bg-gray-600 text-white rounded-full p-2 disabled:bg-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed"
+          [disabled]="currentPage === 1"
+        >
+          <mat-icon class="thin-icon">chevron_left</mat-icon>
+        </button>
+        <button
+          class="pagination-button bg-gray-500 hover:bg-gray-600 text-white rounded-full p-2 disabled:bg-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed"
+          [disabled]="currentPage === totalPages"
+        >
+          <mat-icon class="thin-icon">chevron_right</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

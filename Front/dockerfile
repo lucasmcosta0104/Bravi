@@ -1,0 +1,21 @@
+FROM node:21-alpine as builder
+
+COPY package.json package-lock.json ./
+
+RUN npm i && mkdir /app && mv ./node_modules ./app
+
+WORKDIR /app
+
+COPY . /app/
+
+RUN npm run build
+
+FROM node:21-alpine
+COPY --from=builder /app /app
+
+WORKDIR /app
+EXPOSE 4000
+
+USER node
+
+CMD ["node", "dist/front/server/server.mjs"]

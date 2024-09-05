@@ -1,0 +1,12 @@
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-label {
+  color: var(--sys-tertiary);
+  line-height: 1.25em;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
